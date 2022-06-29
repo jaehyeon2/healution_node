@@ -18,7 +18,7 @@ const passportConfig = require('./passport');
 
 const app=express();
 passportConfig();
-app.set('port', process.env.PORT);
+app.set('port', process.env.PORT||3000);
 
 //임시 setting - html용
 app.set('view engine', 'html');

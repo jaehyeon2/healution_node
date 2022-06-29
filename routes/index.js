@@ -5,6 +5,8 @@ const Sequelize = require('sequelize');
 // const path = require('path')
 // const fs = require('fs');
 
+const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
+
 const router=express.Router();
 
 router.use((req, res, next)=>{
@@ -15,10 +17,21 @@ router.use((req, res, next)=>{
     next();
 });
 
+
+
+router.get('/', async(req, res, next)=>{
+    res.render('startPage', {title:'Main'});
+})
+
 //menuBar router
 //main router
-router.get('/home', async(req, res, next)=>{
-
+router.get('/main', async(req, res, next)=>{
+    try{
+		res.render('main', {title:'Healution'});
+	}catch(error){
+		console.error(error);
+		next(error);
+	}
 });
 
 //info router
@@ -52,3 +65,4 @@ router.get('/login', isNotLoggedIn, async(req, res)=>{
     res.render('login', {title:'Healution-login'});
 });
 
+module.exports=router;
