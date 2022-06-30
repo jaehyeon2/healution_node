@@ -36,22 +36,22 @@ router.get('/main', async(req, res, next)=>{
 
 //info router
 router.get('/info', async(req, res, next)=>{
-
+    res.render('menu/info', {title:'Healution-info'});
 });
 
 //community router
 router.get('/comm', async(req, res, next)=>{
-
+    res.render('menu/community', {title:'Healution-community'});
 });
 
 //wiki router
 router.get('/wiki', async(req, res, next)=>{
-
+    res.render('menu/wiki', {title:'Healution-wiki'});
 });
 
 //profile router
-router.get('/profile/:id', async(req, res, next)=>{
-
+router.get('/profile/:id', isLoggedIn, async(req, res, next)=>{
+    res.render('menu/profile', {title:'Healution-profile'});
 });
 
 //user auth router

@@ -11,14 +11,13 @@ const nunjucks=require('nunjucks');
 
 dotenv.config();
 const indexRouter = require('./routes/index');
-//auth router 추가 시에 주석 해제
-// const authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth');
 const {sequelize} = require('./models');
 const passportConfig = require('./passport');
 
 const app=express();
 passportConfig();
-app.set('port', process.env.PORT||3000);
+app.set('port', process.env.PORT);
 
 //임시 setting - html용
 app.set('view engine', 'html');
@@ -57,8 +56,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', indexRouter);
-//auth router 추가 시에 주석 해제
-// app.use('/auth', authRouter);
+app.use('/auth', authRouter);
 
 app.use((req, res, next)=>{
     const error=new Error(`${req.method} ${req.url} router is no exist.`);
