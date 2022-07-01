@@ -19,7 +19,7 @@ router.get('/', isLoggedIn, isAdmin, async(req, res, next)=>{
 });
 
 router.get('/main', isLoggedIn, isAdmin, async(req, res, next)=>{
-	res.render('adminpage/sitemanage', {title:`메인 화면 관리`});
+	res.render('adminpage/boardmanage/sitemanage', {title:`메인 화면 관리`});
 });
 
 router.get('/board', isLoggedIn, isAdmin, async(req, res, next)=>{
@@ -29,11 +29,11 @@ router.get('/board', isLoggedIn, isAdmin, async(req, res, next)=>{
 		if (type==="normal"){
 			boards=await Board.findAll({where:{type:"normal"}});
 			console.log('boards', boards);
-			res.render('adminpage/boardlist', {title:`일반 게시판 목록`, boards, type});
+			res.render('adminpage/boardmanage/boardlist', {title:`일반 게시판 목록`, boards, type});
 		}
 		else{
 			boards=await Board.findAll({where:{type:"photo"}});
-			res.render('adminpage/boardlist', {title:`포토 게시판 목록`, boards, type});
+			res.render('adminpage/boardmanage/boardlist', {title:`포토 게시판 목록`, boards, type});
 		}	
 	}catch(error){
 		console.error(error);
@@ -43,7 +43,7 @@ router.get('/board', isLoggedIn, isAdmin, async(req, res, next)=>{
 
 router.get('/boardcreate', isLoggedIn, isAdmin, async(req, res, next)=>{
 	const type=req.query.type;
-	res.render('adminpage/boardcreate', {title:`${type} 게시판 생성`, type});
+	res.render('adminpage/boardmanage/boardcreate', {title:`${type} 게시판 생성`, type});
 });
 
 router.post('/boardcreate', isLoggedIn, isAdmin, async(req, res, next)=>{
@@ -69,7 +69,7 @@ router.get('/postmanage/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 	try{
 		const posts=await Post.findAll({where:{boardid:req.params.id}});
 		const board=await Board.findOne({where:{id:req.params.id}});
-		res.render('adminpage/boardmanage', {title:`게시판 관리`, posts, board});
+		res.render('adminpage/boardmanage/boardmanage', {title:`게시판 관리`, posts, board});
 	}catch(error){
 		console.error(error);
 		next(error);

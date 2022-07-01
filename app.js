@@ -12,6 +12,7 @@ const nunjucks=require('nunjucks');
 dotenv.config();
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const adminRouter = require('./routes/admin');
 const {sequelize} = require('./models');
 const passportConfig = require('./passport');
 
@@ -57,6 +58,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/admin', adminRouter);
 
 app.use((req, res, next)=>{
     const error=new Error(`${req.method} ${req.url} router is no exist.`);
