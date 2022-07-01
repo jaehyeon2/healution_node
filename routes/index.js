@@ -5,6 +5,7 @@ const Sequelize = require('sequelize');
 // const path = require('path')
 // const fs = require('fs');
 
+const {Board, Page, Post, User}=require('../models');
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
 
 const router=express.Router();
@@ -19,13 +20,9 @@ router.use((req, res, next)=>{
 
 
 
-router.get('/', async(req, res, next)=>{
-    res.render('startPage', {title:'Main'});
-})
-
 //menuBar router
 //main router
-router.get('/main', async(req, res, next)=>{
+router.get('/', async(req, res, next)=>{
     try{
 		res.render('main', {title:'Healution'});
 	}catch(error){
@@ -41,7 +38,9 @@ router.get('/info', async(req, res, next)=>{
 
 //community router
 router.get('/comm', async(req, res, next)=>{
-    res.render('menu/community', {title:'Healution-community'});
+    const normalboards=await Board.findAll({where:{type:"normal"}});
+    const photoboards=await Board.findAll({where:{type:"photo"}});
+	res.render('menu/community', {title:'Healution-community', normalboards, photoboards});
 });
 
 //wiki router
@@ -50,7 +49,7 @@ router.get('/wiki', async(req, res, next)=>{
 });
 
 //profile router
-router.get('/profile/:id', async (req, res, next)=>{
+router.get('/profile/:id', isLoggedIn, async (req, res, next)=>{
     try{
         
         res.render('menu/profile',{title:'Healution-profile'});

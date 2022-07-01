@@ -21,7 +21,7 @@ router.post('/join', isNotLoggedIn, async(req, res, next)=>{
 			password:hash,
 			auth:'customer',
 		});
-		return res.redirect('/main');
+		return res.redirect('/');
 	}catch(error){
 		console.error(error);
 		return next(error);
@@ -35,14 +35,14 @@ router.post('/login', isNotLoggedIn, (req, res, next)=>{
 			return next(authError);
 		}
 		if(!user){
-			return res.redirect(`/main?loginError=${info.message}`);
+			return res.redirect(`/?loginError=${info.message}`);
 		}
 		return req.login(user, (loginError)=>{
 			if(loginError){
 				console.error(loginError);
 				return next(loginError);
 			}
-			return res.redirect('/main');
+			return res.redirect('/');
 		});
 	})(req, res, next);
 });
@@ -50,7 +50,7 @@ router.post('/login', isNotLoggedIn, (req, res, next)=>{
 router.get('/logout', isLoggedIn, (req, res)=>{
 	req.logout();
 	req.session.destroy();
-	res.redirect('/main');
+	res.redirect('/');
 });
 
 module.exports=router;
