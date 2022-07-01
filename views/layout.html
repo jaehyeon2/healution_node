@@ -34,6 +34,9 @@
 					{% if user and user.id %}
 					<input id="my-id" type="hidden" value="{{user.id}}">
 					<a href="/profile/{{user.nick}}"><div class="user-name">{{user.nick}}</div></a>
+					{% if user.auth=="admin" %}
+					<a href="/admin">관리자 페이지</a>
+					{% endif %}
 					<a id="logout" href="/auth/logout" class="btn">로그아웃</a>
 					{% else %}
 					<a id="login" href="/login" class="btn">로그인</a>
