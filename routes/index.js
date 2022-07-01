@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const express = require('express');
 const Sequelize = require('sequelize');
-// const multer = require('multer');
-// const path = require('path')
-// const fs = require('fs');
+const multer = require('multer');
+const path = require('path')
+const fs = require('fs');
 
 const {Board, Page, Post, User}=require('../models');
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
@@ -48,6 +48,7 @@ router.get('/wiki', async(req, res, next)=>{
     res.render('menu/wiki', {title:'Healution-wiki'});
 });
 
+//
 //profile router
 router.get('/profile/:id', isLoggedIn, async (req, res, next)=>{
     try{
@@ -142,5 +143,59 @@ router.get('/deletepost/:id', isLoggedIn, async(req, res, next)=>{
         next(error);
     }
 });
+
+const upload=multer({
+	storage:multer.diskStorage({
+		destination(req, file, cb){
+			cb(null, 'uploads/');
+		},
+		filename(req, file, cb){
+			const ext=path.extname(file.originalname);
+			cb(null, path.basename(file.originalname, ext)+new Date().valueOf()+ext);
+		},
+	}),
+	limits:{fileSize:500*1024*1024},
+});
+
+router.post('/post-write-n', isLoggedIn, async(req, res, next)=>{
+	try{
+		const today = new Date();   
+	    const time=today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate()+' '+today.getHours()+':'+today.getMinutes()+':'+today.getSeconds();
+		const post=await Post.create({
+			title:req.body.title,
+			content:req.body.content,
+			writer:req.user.nick,
+			type:req.body.type,
+			boardid:req.body.boardid,
+			date:time,
+		});
+		res.redirect(`/normalboard/${req.body.boardid}`);
+	}catch(error){
+		console.error(error);
+		next(error);
+	}
+});
+
+router.post('/post-write-p', isLoggedIn, upload.single('image'), async(req, res, next)=>{
+	try{
+		const today = new Date(); 
+	    const time=today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate()+' '+today.getHours()+':'+today.getMinutes()+':'+today.getSeconds();
+		const post=await Post.create({
+			title:req.body.title,
+			image:req.file.filename,
+			content:req.body.content,
+			writer:req.user.nick,
+			type:req.body.type,
+			boardid:req.body.boardid,
+			date:time,
+		});
+		res.redirect(`/photoboard/${req.body.boardid}`);
+	}catch(error){
+		console.error(error);
+		next(error);
+	}
+});
+
+//community board router
 
 module.exports=router;
