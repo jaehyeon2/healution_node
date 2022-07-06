@@ -8,7 +8,7 @@ const User=require('../models/user');
 const router=express.Router();
 
 router.post('/join', isNotLoggedIn, async(req, res, next)=>{
-	const {email, nick, password}=req.body;
+	const {email, nick, password, disease}=req.body;
 	try{
 		const exUser=await User.findOne({where:{email}});
 		if(exUser){
@@ -20,6 +20,7 @@ router.post('/join', isNotLoggedIn, async(req, res, next)=>{
 			nick,
 			password:hash,
 			auth:'customer',
+			disease,
 		});
 		return res.redirect('/');
 	}catch(error){

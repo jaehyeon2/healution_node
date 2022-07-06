@@ -16,6 +16,10 @@ module.exports=class User extends Sequelize.Model{
 				type: Sequelize.STRING(100),
 				allowNull: true,
 			},
+			disease:{
+				type:Sequelize.STRING(500),
+				allowNull:false,
+			},
 			auth:{
 				type:Sequelize.STRING(15),
 				allowNull:false,

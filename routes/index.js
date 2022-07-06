@@ -52,8 +52,9 @@ router.get('/wiki', async(req, res, next)=>{
 //profile router
 router.get('/profile/:id', isLoggedIn, async (req, res, next)=>{
     try{
-        
-        res.render('menu/profile',{title:'Healution-profile'});
+		console.log('id:', req.params.id);
+        const profile=await User.findOne({where:{nick:req.params.id},});
+        res.render('menu/profile',{title:'Healution-profile', profile});
         console.log('fin');
     } catch(error){
         console.error(error);
