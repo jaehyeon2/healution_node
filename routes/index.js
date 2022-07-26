@@ -6,16 +6,17 @@ const path = require('path')
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-const {Board, Page, Post, User}=require('../models');
+const {Post, User, Hashtag}=require('../models');
+//Board, Page, 	
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
 
 const router=express.Router();
 
 router.use((req, res, next)=>{
     res.locals.user=req.user;
-    // res.locals.follwerCount=req.user?req.user.Followers.length:0;
-    // res.locals.followingCount=req.user?req.user.Followings.length:0;
-    // res.locals.followerIdList=req.user?req.user.Followings.map(f=>f.id):[];
+    res.locals.follwerCount=req.user?req.user.Followers.length:0;
+    res.locals.followingCount=req.user?req.user.Followings.length:0;
+    res.locals.followerIdList=req.user?req.user.Followings.map(f=>f.id):[];
     next();
 });
 
@@ -38,11 +39,11 @@ router.get('/info', async(req, res, next)=>{
 });
 
 //community router
-router.get('/comm', async(req, res, next)=>{
-    const normalboards=await Board.findAll({where:{type:"normal"}});
-    const photoboards=await Board.findAll({where:{type:"photo"}});
-	res.render('menu/community', {title:'Healution-community', normalboards, photoboards});
-});
+// disease community
+router.get('/disease/:name', isLoggedIn, async(req, res, next)=>{
+	console.log('disease', req.params.name);
+	// 해당 커뮤니티 이동 로직 짜기
+})
 
 //wiki router
 router.get('/wiki', async(req, res, next)=>{
@@ -55,17 +56,13 @@ router.get('/profile/:id', isLoggedIn, async (req, res, next)=>{
     try{
 		console.log('id:', req.params.id);
         const profile=await User.findOne({where:{nick:req.params.id},});
-		const disease=await bcrypt.hash(profile.disease, 12);
-        res.render('menu/profile',{title:'Healution-profile', profile, disease});
+        res.render('menu/profile',{title:'Healution-profile', profile});
         console.log(profile);
     } catch(error){
         console.error(error);
         next(error);
     }
 });
-
-// disease community
-router.get('/disease/:')
 
 //user auth router
 //join router
