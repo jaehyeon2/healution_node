@@ -4,6 +4,7 @@ const Sequelize = require('sequelize');
 const multer = require('multer');
 const path = require('path')
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 
 const {Board, Page, Post, User}=require('../models');
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
@@ -54,13 +55,17 @@ router.get('/profile/:id', isLoggedIn, async (req, res, next)=>{
     try{
 		console.log('id:', req.params.id);
         const profile=await User.findOne({where:{nick:req.params.id},});
-        res.render('menu/profile',{title:'Healution-profile', profile});
-        console.log('fin');
+		const disease=await bcrypt.hash(profile.disease, 12);
+        res.render('menu/profile',{title:'Healution-profile', profile, disease});
+        console.log(profile);
     } catch(error){
         console.error(error);
         next(error);
     }
 });
+
+// disease community
+router.get('/disease/:')
 
 //user auth router
 //join router
