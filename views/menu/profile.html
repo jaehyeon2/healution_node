@@ -3,6 +3,17 @@
 {% block content %}
 <div class="profile">
     {{profile.nick}}
-    <button>{{profile.disease}}</button>
+    <a href="/disease/{{disease}}">{{profile.disease}}</a>
 </div>
+<script>
+    
+    function diseaseLink(){
+        
+        console.log(disease)
+        // location.href="disease/disease"
+    }
+</script>
+{% endblock %}
+{% block script %}
+
 {% endblock %}
