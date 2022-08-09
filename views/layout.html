@@ -14,7 +14,9 @@
 				<a href="/info">info</a>
 				<a href="/comm">community</a>
 				<a href="/wiki">wiki</a>
+				{% if user.nick %}
 				<a href="/profile/{{user.nick}}">myPage</a>
+				{% endif %}
 			</div>
 
 			<div class="top">
