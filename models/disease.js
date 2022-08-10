@@ -1,6 +1,6 @@
 const Sequelize=require("sequelize");
 
-module.exports=class Community extends Sequelize.Model{
+module.exports=class Disease extends Sequelize.Model{
 	static init(sequelize){
 		return super.init({
 			disease:{
@@ -11,8 +11,8 @@ module.exports=class Community extends Sequelize.Model{
 			sequelize,
 			timestamps:true,
 			underscored:false,
-			modelName:"Post",
-			tableName:"posts",
+			modelName:"Disease",
+			tableName:"diseases",
 			paranoid:false,
 			charset:"utf8mb4",
 			collate:"utf8mb4_general_ci",
@@ -20,6 +20,6 @@ module.exports=class Community extends Sequelize.Model{
 	}
 	
 	static associate(db){
-        db.Community.hasMany(db.Post);
+        db.Disease.hasMany(db.Post);
 	}
 };
