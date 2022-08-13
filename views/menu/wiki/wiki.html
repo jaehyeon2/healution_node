@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<h1>wiki Page</h1>
+	{% if wikiList %}
+	<table>
+		{% for wikiList in wikiLists %}
+		<tr>
+			<td><a href="/wiki/{{wikiList.id}}">{{wikiList.name}} | 마지막 수정 일자:{{wikiList.updateAt}}</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% else %}
+	검색 결과가 없습니다.
+	{% endif %}
+{% endblock %}

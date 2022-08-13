@@ -6,17 +6,18 @@ const path = require('path')
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-const {Post, User, Hashtag}=require('../models');
+const {Post, User, Hashtag, Wiki}=require('../models');
 //Board, Page, 	
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
+const Wiki = require('../models/wiki');
 
 const router=express.Router();
 
 router.use((req, res, next)=>{
     res.locals.user=req.user;
-    res.locals.follwerCount=req.user?req.user.Followers.length:0;
-    res.locals.followingCount=req.user?req.user.Followings.length:0;
-    res.locals.followerIdList=req.user?req.user.Followings.map(f=>f.id):[];
+    // res.locals.follwerCount=req.user?req.user.Followers.length:0;
+    // res.locals.followingCount=req.user?req.user.Followings.length:0;
+    // res.locals.followerIdList=req.user?req.user.Followings.map(f=>f.id):[];
     next();
 });
 
@@ -47,8 +48,23 @@ router.get('/disease/:name', isLoggedIn, async(req, res, next)=>{
 
 //wiki router
 router.get('/wiki', async(req, res, next)=>{
-    res.render('menu/wiki', {title:'Healution-wiki'});
+    try{
+		const wikiLists = await Wiki.findAll();
+		res.render('menu/wiki/wiki', {title:'Healution-wiki', wikiLists});
+	} catch(error){
+		console.error(error);
+	}
 });
+
+//wiki info
+router.get('/wiki/:id', async(req, res, next)=>{
+	try{
+		const wikiInfo = await Wiki.findOne({where:{id:req.params.id},});
+		res.render('menu/wiki/wiki/detail', {title:`Healution-wiki - ${wikiInfo.name}`, wikiInfo});
+	} catch(error){
+		console.error(error);
+	}
+})
 
 //
 //profile router

@@ -1,0 +1,7 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% if wikiInfo %}
+	<h1>{{wikiInfo.name}}</h1>
+	<p>{{wikiInfo.content}}</p>
+	{% endif %}
+{% endblock %}
