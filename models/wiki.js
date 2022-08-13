@@ -1,6 +1,6 @@
 const Sequelize=require("sequelize");
 
-module.exports=class Hashtag extends Sequelize.Model{
+module.exports=class Wiki extends Sequelize.Model{
 	static init(sequelize){
 		return super.init({
 			title:{
@@ -8,19 +8,20 @@ module.exports=class Hashtag extends Sequelize.Model{
 				allowNull:false,
 				unique:true,
 			},
+            content:{
+                type:Sequelize.STRING(3000),
+                allowNull:false,
+            }
 		},{
 			sequelize,
 			timestamps:true,
 			undersored:false,
-			modelName:"Hashtag",
-			tableName:"hashtags",
+			modelName:"Wiki",
+			tableName:"wikis",
 			paranoid:false,
 			charset:"utf8",
 			collate:"utf8_general_ci",
 		});
 	}
 	
-	static associate(db){
-		db.Hashtag.belongsToMany(db.Post,{through:"PostHashtag"});
-	}
 };

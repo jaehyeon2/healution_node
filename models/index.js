@@ -23,7 +23,7 @@ Post.init(sequelize);
 Disease.init(sequelize);
 Hashtag.init(sequelize);
 
-User.associate(db);
+// User.associate(db);
 Post.associate(db);
 Disease.associate(db);
 Hashtag.associate(db);
