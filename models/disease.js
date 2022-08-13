@@ -3,7 +3,7 @@ const Sequelize=require("sequelize");
 module.exports=class Disease extends Sequelize.Model{
 	static init(sequelize){
 		return super.init({
-			disease:{
+			name:{
 				type:Sequelize.STRING(140),
 				allowNull:false,
 			},
@@ -14,8 +14,8 @@ module.exports=class Disease extends Sequelize.Model{
 			modelName:"Disease",
 			tableName:"diseases",
 			paranoid:false,
-			charset:"utf8mb4",
-			collate:"utf8mb4_general_ci",
+			charset:"utf8",
+			collate:"utf8_general_ci",
 		});
 	}
 	

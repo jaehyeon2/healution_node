@@ -9,7 +9,6 @@ const bcrypt = require('bcrypt');
 const {Post, User, Hashtag, Wiki}=require('../models');
 //Board, Page, 	
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
-const Wiki = require('../models/wiki');
 
 const router=express.Router();
 
