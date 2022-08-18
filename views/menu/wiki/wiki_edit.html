@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% if wikiInfo %}
+    <form action="/wiki-write" id="wiki-form" method="post" name="wiki">
+		<div class="input-group">
+			<label for="wiki-title">제목</label><br/>
+			<input type="text" id="title" name="title" required autofocus>{{wikiInfo.title}}
+		</div>
+		<div class="input-group">
+			<label for="wiki-content">내용</label><br/>
+			<textarea id="wiki-content" name="content" placeholder="내용을 입력하세요" value="{{wikiInfo.content}}">{{wikiInfo.content}}</textarea>
+		</div>
+		<button id="join-btn" class="btn" type="submit">
+			수정 완료
+		</button>
+	</form>
+	{% endif %}
+{% endblock %}

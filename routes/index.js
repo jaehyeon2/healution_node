@@ -6,7 +6,7 @@ const path = require('path')
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 
-const {Post, User, Hashtag, Wiki}=require('../models');
+const {Post, User, Hashtag, Wiki, Disease}=require('../models');
 //Board, Page, 	
 const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
 
@@ -39,10 +39,23 @@ router.get('/info', async(req, res, next)=>{
 });
 
 //community router
+router.get('/disease', isLoggedIn, async(req, res, next)=>{
+	try{
+		const diseaseLists = await Disease.findAll();
+		res.render('menu/disease/disease', {title:'Healution-community', diseaseLists});
+	} catch(error){
+		console.error(error);
+	}
+})
+
 // disease community
 router.get('/disease/:name', isLoggedIn, async(req, res, next)=>{
-	console.log('disease', req.params.name);
-	// 해당 커뮤니티 이동 로직 짜기
+	try {
+		console.log('disease', req.params.name);
+		// 해당 커뮤니티 이동 로직 짜기
+	} catch(error){
+		console.error(error);
+	}
 })
 
 //wiki router
@@ -63,7 +76,17 @@ router.get('/wiki/:id', async(req, res, next)=>{
 	} catch(error){
 		console.error(error);
 	}
-})
+});
+
+//wiki edit
+router.get('/wiki/edit/:id', async(req, res, next)=>{
+	try{
+		const wikiInfo = await Wiki.findOne({where:{id:req.params.id},});
+		res.render('/menu/wiki/wiki_edit', {title:`Healution-edit - ${wikiInfo.name}`, wikiInfo});
+	} catch(error){
+		console.error(error);
+	}
+});
 
 //
 //profile router
