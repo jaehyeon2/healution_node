@@ -3,5 +3,6 @@
     {% if wikiInfo %}
 	<h1>{{wikiInfo.name}}</h1>
 	<p>{{wikiInfo.content}}</p>
+	<a href="wiki/edit/{{wikiInfo.id}}">문서 편집</a>
 	{% endif %}
 {% endblock %}

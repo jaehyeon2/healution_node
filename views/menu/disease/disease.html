@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<h1>community Page</h1>
+	{% if diseaseLists %}
+	<table>
+		{% for diseaseList in diseaseLists %}
+		<tr>
+			<td><a href="/disease/{{diseaseList.id}}">{{diseaseList.name}} | 마지막 수정 일자:{{diseaseList.updateAt}}</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+	{% else %}
+	검색 결과가 없습니다.
+	{% endif %}
+{% endblock %}
