@@ -18,10 +18,6 @@ router.get('/', isLoggedIn, isAdmin, async(req, res, next)=>{
 	res.render('adminpage/main', {title:`- admin`});
 });
 
-router.get('/main', isLoggedIn, isAdmin, async(req, res, next)=>{
-	res.render('adminpage/boardmanage/sitemanage', {title:`메인 화면 관리`});
-});
-
 router.get('/board', isLoggedIn, isAdmin, async(req, res, next)=>{
 	try{
 		let boards;
